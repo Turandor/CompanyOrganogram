@@ -8,8 +8,8 @@ namespace CompanyOrganogram
 {
     public class Employee
     {
-        public int id;
-        public int superiorId;
+        int id;
+        int superiorId;
         string name;
         string surename;
         string company;
@@ -18,6 +18,10 @@ namespace CompanyOrganogram
         string firstNumber;
         string secondNumber;
         string thirdNumber;
+
+        public int Id { get { return id; } }
+        public int SuperiorId { get { return superiorId; } }
+        public string Company { get { return company; } }
 
         public Employee(int id, int superiorId, string name, string surename,
                         string company, string city, string job,

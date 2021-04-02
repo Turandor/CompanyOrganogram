@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace CompanyOrganogram
 {
@@ -11,6 +12,8 @@ namespace CompanyOrganogram
     {
         static void Main(string[] args)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             var path = Path.Combine(AppContext.BaseDirectory, "..\\companies_data.csv");
             using (var reader = new StreamReader(path))
             {
@@ -23,10 +26,12 @@ namespace CompanyOrganogram
                                                values[2], values[3], values[4], values[5], 
                                                values[6], values[7], values[8], values[9]));
                 }
-                List<Employee> sortedList = Employees.OrderBy(o => o.id).ToList();
+                //List<Employee> sortedList = Employees.OrderBy(o => o.Id).ThenBy(o => o.Company).ToList();
+                List<Employee> sortedList = Employees.OrderBy(o => o.Id).ToList();
                 PrintOrganogram(sortedList);
             }
-
+            stopwatch.Stop();
+            Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
             Console.ReadKey();
         }
 
@@ -34,13 +39,13 @@ namespace CompanyOrganogram
         {
             foreach (var item in employees)
             {
-                if (item.superiorId == 0)
+                if (item.SuperiorId == 0)
                 {
-                    //employees.Remove(item);
                     Console.WriteLine(item.PrintEmployee());
-                    FindInferiors(item, employees, 1);
+                    //List<Employee> companyEmployees = employees.FindAll(x => x.Company == item.Company);
+                    FindInferiors(item, employees.FindAll(x => x.Company == item.Company), 1);
+                    //FindInferiors(item, employees, 1);
                 }
-
             }
         }
         
@@ -48,10 +53,9 @@ namespace CompanyOrganogram
         {
             foreach (var item in employees)
             {
-                if (superior.id == item.superiorId)
+                if (superior.Id == item.SuperiorId)
                 {
                     Console.WriteLine(ParagraphIndent(level) + item.PrintEmployee());
-                    //employees.Remove(item);
                     FindInferiors(item, employees, level+1);
                 }
             }
@@ -63,6 +67,7 @@ namespace CompanyOrganogram
             {
                 paragraphIndent += "    ";
             }
+            paragraphIndent += "--> ";
             return paragraphIndent;
         }
     }

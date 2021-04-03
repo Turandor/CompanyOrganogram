@@ -15,8 +15,7 @@ namespace CompanyOrganogram
 
             stopwatch.Start();
 
-            organogram.BuildOrganogram();
-            organogram.PrintOrganogram(organogram.bossesList);
+            organogram.PrintOrganogram(organogram.BuildOrganogram());
 
             stopwatch.Stop();
             Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);

@@ -4,9 +4,9 @@ namespace CompanyOrganogram
 {
     public class Organogram
     {
-        public List<Employee> bossesList;
-        public LineWriter lineWriter;
-        public DataReader dataReader;
+        List<Employee> bossesList;
+        LineWriter lineWriter;
+        DataReader dataReader;
 
         public Organogram(LineWriter lineWriter, DataReader dataReader)
         {
@@ -14,13 +14,12 @@ namespace CompanyOrganogram
             this.dataReader = dataReader;
         }
 
-        public void BuildOrganogram()
+        public List<Employee> BuildOrganogram()
         {
             List<EmployeeModel> unorganizedEmployees = new List<EmployeeModel>();
             bossesList = new List<Employee>();
 
             unorganizedEmployees = dataReader.ReadFromFile();
-
 
             int startLevel = 0;
             foreach (var employee in unorganizedEmployees)
@@ -33,9 +32,10 @@ namespace CompanyOrganogram
                         startLevel),startLevel));
                 }
             }
+            return bossesList;
         }
 
-        public List<Employee> FindInferiors(EmployeeModel superior, List<EmployeeModel> employeeDataList, int level)
+        List<Employee> FindInferiors(EmployeeModel superior, List<EmployeeModel> employeeDataList, int level)
         {
             List<Employee> inferiorsList = new List<Employee>();
             foreach (var employeeData in employeeDataList)

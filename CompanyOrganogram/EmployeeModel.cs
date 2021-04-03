@@ -3,8 +3,6 @@ namespace CompanyOrganogram
 {
     public class EmployeeModel
     {
-
-
         public int Id { get; private set; }
         public int SuperiorId { get; private set; }
         public string Company { get; private set; }

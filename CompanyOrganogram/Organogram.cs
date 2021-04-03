@@ -4,8 +4,8 @@ namespace CompanyOrganogram
 {
     public class Organogram
     {
-        LineWriter lineWriter;
-        DataReader dataReader;
+        readonly LineWriter lineWriter;
+        readonly DataReader dataReader;
 
         public Organogram(LineWriter lineWriter, DataReader dataReader)
         {
@@ -19,8 +19,8 @@ namespace CompanyOrganogram
             List<Employee> bossesList = new List<Employee>();
 
             unorganizedEmployees = dataReader.ReadFromFile();
-
             int startLevel = 0;
+
             foreach (var employee in unorganizedEmployees)
             {
                 if (employee.SuperiorId == 0)

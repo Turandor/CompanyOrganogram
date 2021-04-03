@@ -23,7 +23,7 @@ namespace CompanyOrganogram
                                                    values[2], values[3], values[4], values[5],
                                                    values[6], values[7], values[8], values[9]));
                     }
-                    List<EmployeeModel> sortedList = employees.OrderBy(o => o.Id).ToList();
+                    List<EmployeeModel> sortedList = employees.OrderBy(x => x.Id).ToList();
                     return sortedList;
                 }
             }

@@ -4,7 +4,6 @@ namespace CompanyOrganogram
 {
     public class Organogram
     {
-        List<Employee> bossesList;
         LineWriter lineWriter;
         DataReader dataReader;
 
@@ -17,7 +16,7 @@ namespace CompanyOrganogram
         public List<Employee> BuildOrganogram()
         {
             List<EmployeeModel> unorganizedEmployees = new List<EmployeeModel>();
-            bossesList = new List<Employee>();
+            List<Employee> bossesList = new List<Employee>();
 
             unorganizedEmployees = dataReader.ReadFromFile();
 
@@ -43,7 +42,7 @@ namespace CompanyOrganogram
                 if (superior.Id == employeeData.SuperiorId)
                 {
                     inferiorsList.Add(new Employee(employeeData, 
-                        FindInferiors(employeeData, employeeDataList, level + 1), level+1));               
+                        FindInferiors(employeeData, employeeDataList, level + 1), level + 1));               
                 }
             }
             return inferiorsList;

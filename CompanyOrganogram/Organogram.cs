@@ -1,47 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CompanyOrganogram
 {
-    public static class Organogram
+    public class Organogram
     {
-        public static void PrintOrganogram(List<Employee> employees)
+        public List<Employee> bossesList;
+        public LineWriter lineWriter;
+        public DataReader dataReader;
+
+        public Organogram(LineWriter lineWriter, DataReader dataReader)
         {
-            foreach (var item in employees)
+            this.lineWriter = lineWriter;
+            this.dataReader = dataReader;
+        }
+
+        public void BuildOrganogram()
+        {
+            List<EmployeeModel> unorganizedEmployees = new List<EmployeeModel>();
+            bossesList = new List<Employee>();
+
+            unorganizedEmployees = dataReader.ReadFromFile();
+
+
+            int startLevel = 0;
+            foreach (var employee in unorganizedEmployees)
             {
-                if (item.SuperiorId == 0)
+                if (employee.SuperiorId == 0)
                 {
-                    Console.WriteLine(item.PrintEmployee());
-                    //List<Employee> companyEmployees = employees.FindAll(x => x.Company == item.Company);
-                    FindInferiors(item, employees.FindAll(x => x.Company == item.Company), 1);
-                    //FindInferiors(item, employees, 1);
+                    bossesList.Add(new Employee(employee, 
+                        FindInferiors(employee, unorganizedEmployees.
+                        FindAll(x => x.Company == employee.Company),
+                        startLevel),startLevel));
                 }
             }
         }
 
-        public static void FindInferiors(Employee superior, List<Employee> employees, int level)
+        public List<Employee> FindInferiors(EmployeeModel superior, List<EmployeeModel> employeeDataList, int level)
         {
-            foreach (var item in employees)
+            List<Employee> inferiorsList = new List<Employee>();
+            foreach (var employeeData in employeeDataList)
             {
-                if (superior.Id == item.SuperiorId)
+                if (superior.Id == employeeData.SuperiorId)
                 {
-                    Console.WriteLine(TextIndent(level) + item.PrintEmployee());
-                    FindInferiors(item, employees, level + 1);
+                    inferiorsList.Add(new Employee(employeeData, 
+                        FindInferiors(employeeData, employeeDataList, level + 1), level+1));               
                 }
             }
+            return inferiorsList;
         }
-        public static string TextIndent(int level)
+
+        public void PrintOrganogram(List<Employee> employees)
         {
-            string paragraphIndent = "";
-            for (int i = 0; i < level; i++)
+            foreach (var employee in employees)
             {
-                paragraphIndent += "    ";
+                lineWriter.WriteLine(employee);
+                if (employee.inferiors.Count != 0)
+                    PrintOrganogram(employee.inferiors);
             }
-            paragraphIndent += "--> ";
-            return paragraphIndent;
         }
     }
 }

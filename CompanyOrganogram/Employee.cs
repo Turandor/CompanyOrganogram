@@ -1,49 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CompanyOrganogram
 {
     public class Employee
     {
-        int id;
-        int superiorId;
-        string name;
-        string surename;
-        string company;
-        string city;
-        string job;
-        string firstNumber;
-        string secondNumber;
-        string thirdNumber;
+        public EmployeeModel employeeData;
+        public List<Employee> inferiors = new List<Employee>();
+        public int HierarchyLevel { get; set; }
 
-        public int Id { get { return id; } }
-        public int SuperiorId { get { return superiorId; } }
-        public string Company { get { return company; } }
-
-        public Employee(int id, int superiorId, string name, string surename,
-                        string company, string city, string job,
-                        string firstNumber, string secondNumber, string thirdNumber)
+        public Employee (EmployeeModel employeeData, List<Employee> inferiors, int hierarchyLevel)
         {
-            this.id = id;
-            this.superiorId = superiorId;
-            this.name = name;
-            this.surename = surename;
-            this.company = company;
-            this.city = city;
-            this.job = job;
-            this.firstNumber = firstNumber;
-            this.secondNumber = secondNumber;
-            this.thirdNumber = thirdNumber;
+            this.employeeData = employeeData;
+            HierarchyLevel = hierarchyLevel;
+            if (inferiors.Count != 0)
+                this.inferiors = inferiors;
         }
-
-        public string PrintEmployee()
+        public Employee(EmployeeModel employeeData)
         {
-            return (id + ", " + superiorId + ", " + name + ", " +
-                surename + ", " + company + ", " + city + ", " +
-                job);
+            this.employeeData = employeeData;
         }
     }
 }

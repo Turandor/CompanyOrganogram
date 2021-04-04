@@ -9,44 +9,78 @@ namespace CompanyOrganogramTests
     [TestClass]
     public class OrganogramTests
     {
-        [TestMethod]
-        public void FindInferiors_ShouldFindAllInferiors()
-        {
-            // Arrange
-            List<Employee> employees = new List<Employee>();
-            employees.Add(new Employee(1, 0, "John", "Johnson", "AAA", "city", "director", "1", "2", "3"));
-            employees.Add(new Employee(2, 1, "Adam", "Adamczewski", "AAA", "city", "technical director", "1", "2", "3"));
-            employees.Add(new Employee(3, 0, "Gordon", "Brown", "BBB", "city", "director", "1", "2", "3"));
-            employees.Add(new Employee(4, 1, "Albert", "Zweistein", "AAA", "city", "marketing director", "1", "2", "3"));
-            //chujów sto to nie moze tak byc xD
-            string expected = "--> 2, 1, Adam, Adamczewski, AAA, city, technical director\n        --> 4, 1, Albert, Zweistein, AAA, city, marketing director";
-            // Act
-            using (var sw = new StringWriter())
-            {
-                Console.SetOut(sw);
-                CompanyOrganogram.Organogram.FindInferiors(employees[0], employees, 0);
-
-                var result = sw.ToString();
-            // Assert
-                Assert.AreEqual(expected, result);
-            }
-
-
-        }
 
         [TestMethod]
         public void TextIndent_WithValidLevel_ReturnsGoodIndent()
         {
             // Arrange
+            LineWriter lineWriter = new LineWriter();
             int level = 5;
             string expected = "                    --> ";
             string output;
             // Act
-            output = CompanyOrganogram.Organogram.TextIndent(level);
+            output = lineWriter.TextIndent(level);
 
             // Assert
             Assert.AreEqual(expected, output, "Text indent is not correct");
         }
 
+        [TestMethod]
+        public void TextIndent_WithZeroLevel_ReturnsEmptyIndent()
+        {
+            // Arrange
+            LineWriter lineWriter = new LineWriter();
+            int level = 0;
+            string expected = "";
+            string output;
+            // Act
+            output = lineWriter.TextIndent(level);
+
+            // Assert
+            Assert.AreEqual(expected, output, "Text indent is not correct");
+        }
+
+        [TestMethod]
+        public void WriteLine_ShouldDisplayCorrectText()
+        {
+            using (var sw = new StringWriter())
+            {
+                // Arrange
+                LineWriter lineWriter = new LineWriter();
+                Console.SetOut(sw);
+                int hierarchyLevel = 0;
+                EmployeeModel employeeModel = new EmployeeModel(1, 0, "A", "B", "C", "D", "E", "1", "2", "3");
+                Employee employee = new Employee(employeeModel, hierarchyLevel);
+                string expected = "1, 0, A, B, C, D, E";
+
+                // Act
+                lineWriter.WriteLine(employee);
+                var result = sw.ToString().Trim();
+
+                // Assert
+                Assert.AreEqual(expected, result, "Employee was not corectly displayed");
+            }
+        }
+
+        /*
+        [TestMethod]
+        public void FindInferiors_ShouldReturnCorrectInferiorsList()
+        {
+            // Arrange
+            int hierarchyLevel = 0;
+            List<EmployeeModel> employeeModelList = new List<EmployeeModel>();
+
+            employeeModelList.Add(new EmployeeModel(3, 0, "A", "A", "A", "A", "A", "1", "2", "3"));
+            employeeModelList.Add(new EmployeeModel(1, 2, "B", "B", "B", "B", "B", "1", "2", "3"));
+            employeeModelList.Add(new EmployeeModel(4, 2, "C", "C", "C", "C", "C", "1", "2", "3"));
+            employeeModelList.Add(new EmployeeModel(2, 0, "D", "D", "D", "D", "D", "1", "2", "3"));
+            employeeModelList.Add(new EmployeeModel(5, 1, "E", "E", "E", "E", "E", "1", "2", "3"));
+
+            // Act
+
+            // Assert
+            Assert.AreEqual(expected, result);
+        }
+        */
     }
 }

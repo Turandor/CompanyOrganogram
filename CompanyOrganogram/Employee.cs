@@ -15,9 +15,10 @@ namespace CompanyOrganogram
             if (inferiors.Count != 0)
                 this.inferiors = inferiors;
         }
-        public Employee(EmployeeModel employeeData)
+        public Employee(EmployeeModel employeeData, int hierarchyLevel)
         {
             this.employeeData = employeeData;
+            HierarchyLevel = hierarchyLevel;
         }
     }
 }

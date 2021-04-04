@@ -16,11 +16,10 @@ namespace CompanyOrganogram
             sb.Append(employee.employeeData.City + ", ");
             sb.Append(employee.employeeData.Job);
             
-            //string line = $"{TextIndent(employee.HierarchyLevel)}{employee.employeeData.Id}, {employee.employeeData.SuperiorId}, {employee.employeeData.Name}, {employee.employeeData.Surename}, {employee.employeeData.Company}, {employee.employeeData.City}, {employee.employeeData.Job}";
             Console.WriteLine(sb);
         }
 
-        public static string TextIndent(int level)
+        public string TextIndent(int level)
         {
             StringBuilder paragraphIndent = new StringBuilder("");
             if (level > 0)

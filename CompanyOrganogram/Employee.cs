@@ -20,5 +20,31 @@ namespace CompanyOrganogram
             this.employeeData = employeeData;
             HierarchyLevel = hierarchyLevel;
         }
+
+        //Equals override for unit test
+        public override bool Equals(object obj)
+        {
+            if (employeeData.Id == ((Employee)obj).employeeData.Id)
+            {
+                if (inferiors.Count == ((Employee)obj).inferiors.Count)
+                {
+                    if (inferiors.Count == 0)
+                        return true;
+                    else
+                    {
+                        for (int i = 0; i < inferiors.Count; i++)
+                        {
+                            if (!inferiors[i].Equals(((Employee)obj).inferiors[i]))
+                                return false;
+                        }
+                        return true;
+                    }
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
     }
 }

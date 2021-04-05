@@ -47,6 +47,7 @@ namespace CompanyOrganogramTests
             expected.Add(employee1);
             expected.Add(employee4);
 
+
             dataReaderMock.Setup(x => x.ReadFromFile()).Returns(employeeModelList);
 
             Organogram organogram = new Organogram(lineWriter, dataReaderMock.Object);
@@ -55,8 +56,11 @@ namespace CompanyOrganogramTests
             var firstNotSecond = expected.Except(tmp).ToList();
             var secondNotFirst = tmp.Except(expected).ToList();
 
-            CollectionAssert.AreEqual(expected, tmp);
+            //Assert.AreEqual(expected, tmp);
+            organogram.PrintOrganogram(tmp);
+            organogram.PrintOrganogram(expected);
 
+            CollectionAssert.AreEqual(expected, tmp);
         }
     }
         /*

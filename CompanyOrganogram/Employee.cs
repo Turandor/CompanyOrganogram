@@ -21,7 +21,6 @@ namespace CompanyOrganogram
             HierarchyLevel = hierarchyLevel;
         }
 
-        //Equals override for unit test
         public override bool Equals(object obj)
         {
             if (employeeData == ((Employee)obj).employeeData)

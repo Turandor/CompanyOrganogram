@@ -7,9 +7,9 @@ namespace CompanyOrganogram
 {
     public class DataReader
     {
-        public List<EmployeeModel> ReadFromFile()
+        public virtual List<EmployeeModel> ReadFromFile()
         {
-            var path = Path.Combine(AppContext.BaseDirectory, "..\\companies_data.csv");
+            var path = Path.Combine(AppContext.BaseDirectory, "..\\..\\companies_data.csv");
             try
             {
                 using (var reader = new StreamReader(path))

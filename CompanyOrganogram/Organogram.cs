@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace CompanyOrganogram
 {
@@ -18,20 +19,25 @@ namespace CompanyOrganogram
             List<EmployeeModel> unorganizedEmployees = new List<EmployeeModel>();
             List<Employee> bossesList = new List<Employee>();
 
-            unorganizedEmployees = dataReader.ReadFromFile();
             int startLevel = 0;
+            unorganizedEmployees = dataReader.ReadFromFile();
 
-            foreach (var employee in unorganizedEmployees)
+            if (unorganizedEmployees != null)
             {
-                if (employee.SuperiorId == 0)
+                foreach (var employee in unorganizedEmployees)
                 {
-                    bossesList.Add(new Employee(employee, 
-                        FindInferiors(employee, unorganizedEmployees.
-                        FindAll(x => x.Company == employee.Company),
-                        startLevel),startLevel));
+                    if (employee.SuperiorId == 0)
+                    {
+                        bossesList.Add(new Employee(employee,
+                            FindInferiors(employee, unorganizedEmployees.
+                            FindAll(x => x.Company == employee.Company),
+                            startLevel), startLevel));
+                    }
                 }
+                return bossesList;
             }
-            return bossesList;
+            else
+                return null;
         }
 
         List<Employee> FindInferiors(EmployeeModel superior, List<EmployeeModel> employeeDataList, int level)
@@ -50,12 +56,17 @@ namespace CompanyOrganogram
 
         public void PrintOrganogram(List<Employee> employees)
         {
-            foreach (var employee in employees)
+            if (employees != null)
             {
-                lineWriter.WriteLine(employee);
-                if (employee.inferiors.Count != 0)
-                    PrintOrganogram(employee.inferiors);
+                foreach (var employee in employees)
+                {
+                    lineWriter.WriteLine(employee);
+                    if (employee.inferiors.Count != 0)
+                        PrintOrganogram(employee.inferiors);
+                }
             }
+            else
+                Console.WriteLine("Cannot print empty organogram!");
         }
     }
 }

@@ -7,6 +7,7 @@ namespace CompanyOrganogram
     {
         readonly LineWriter lineWriter;
         readonly DataReader dataReader;
+        readonly string fileName = "companies_data.csv";
 
         public Organogram(LineWriter lineWriter, DataReader dataReader)
         {
@@ -20,7 +21,7 @@ namespace CompanyOrganogram
             List<Employee> bossesList = new List<Employee>();
 
             int startLevel = 0;
-            unorganizedEmployees = dataReader.ReadFromFile();
+            unorganizedEmployees = dataReader.ReadFromFile(fileName);
 
             if (unorganizedEmployees != null)
             {

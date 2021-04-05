@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using CompanyOrganogram;
 using Moq;
@@ -14,12 +11,13 @@ namespace CompanyOrganogramTests
         [TestMethod]
         public void BuildOrganogram_ShouldBuildCorrectOrganogram()
         {
-            //Arrange
-            var dataReaderMock = new Mock<DataReader>();
+            // Arrange
+            var dataReaderMock = new Mock<DataReader>(); // Mock of Data Reader
             LineWriter lineWriter = new LineWriter();
 
             List<EmployeeModel> employeeModelList = new List<EmployeeModel>();
             
+            //Test Data
             EmployeeModel model1 = new EmployeeModel(3, 0, "A", "A", "A", "A", "A", "1", "2", "3");
             EmployeeModel model2 = new EmployeeModel(1, 2, "B", "B", "B", "B", "B", "1", "2", "3");
             EmployeeModel model3 = new EmployeeModel(4, 2, "C", "C", "B", "C", "C", "1", "2", "3");
@@ -31,7 +29,8 @@ namespace CompanyOrganogramTests
             employeeModelList.Add(model3);
             employeeModelList.Add(model4);
             employeeModelList.Add(model5);
-
+            
+            // Manual creating of organogram
             Employee employee1 = new Employee(model1, 0);
             Employee employee3 = new Employee(model3, 1);
             Employee employee5 = new Employee(model5, 2);
@@ -48,40 +47,15 @@ namespace CompanyOrganogramTests
             expected.Add(employee4);
 
 
-            dataReaderMock.Setup(x => x.ReadFromFile()).Returns(employeeModelList);
-
-            Organogram organogram = new Organogram(lineWriter, dataReaderMock.Object);
-            List<Employee> tmp = organogram.BuildOrganogram();
-
-            var firstNotSecond = expected.Except(tmp).ToList();
-            var secondNotFirst = tmp.Except(expected).ToList();
-
-            //Assert.AreEqual(expected, tmp);
-            organogram.PrintOrganogram(tmp);
-            organogram.PrintOrganogram(expected);
-
-            CollectionAssert.AreEqual(expected, tmp);
-        }
-    }
-        /*
-        [TestMethod]
-        public void FindInferiors_ShouldReturnCorrectInferiorsList()
-        {
-            // Arrange
-            int hierarchyLevel = 0;
-            List<EmployeeModel> employeeModelList = new List<EmployeeModel>();
-
-            employeeModelList.Add(new EmployeeModel(3, 0, "A", "A", "A", "A", "A", "1", "2", "3"));
-            employeeModelList.Add(new EmployeeModel(1, 2, "B", "B", "B", "B", "B", "1", "2", "3"));
-            employeeModelList.Add(new EmployeeModel(4, 2, "C", "C", "C", "C", "C", "1", "2", "3"));
-            employeeModelList.Add(new EmployeeModel(2, 0, "D", "D", "D", "D", "D", "1", "2", "3"));
-            employeeModelList.Add(new EmployeeModel(5, 1, "E", "E", "E", "E", "E", "1", "2", "3"));
+            dataReaderMock.Setup(x => x.ReadFromFile(It.IsAny<string>())).Returns(employeeModelList); // Mock method
+            Organogram organogram = new Organogram(lineWriter, dataReaderMock.Object); 
 
             // Act
+            List<Employee> outputOgranogram = organogram.BuildOrganogram();
 
             // Assert
-            Assert.AreEqual(expected, result);
+            CollectionAssert.AreEqual(expected, outputOgranogram);
         }
-        */
+    }
 }
 

@@ -29,5 +29,22 @@ namespace CompanyOrganogram
             SecondNumber = secondNumber;
             ThirdNumber = thirdNumber;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (Id == ((EmployeeModel)obj).Id &&
+                SuperiorId == ((EmployeeModel)obj).SuperiorId &&
+                Name == ((EmployeeModel)obj).Name &&
+                Surename == ((EmployeeModel)obj).Surename &&
+                Company == ((EmployeeModel)obj).Company &&
+                City == ((EmployeeModel)obj).City &&
+                Job == ((EmployeeModel)obj).Job &&
+                FirstNumber == ((EmployeeModel)obj).FirstNumber &&
+                SecondNumber == ((EmployeeModel)obj).SecondNumber &&
+                ThirdNumber == ((EmployeeModel)obj).ThirdNumber)
+                return true;
+            else
+                return false;
+        }
     }
 }
